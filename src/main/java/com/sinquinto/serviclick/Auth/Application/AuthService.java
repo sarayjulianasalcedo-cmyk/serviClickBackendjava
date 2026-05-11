@@ -57,6 +57,7 @@ public class AuthService implements LoginUserCase {
                 .token(jwtService.getToken(userMapper.userToUserEntity(user)))
                 .email(userDB.getEmail())
                 .userId(userDB.getUserId())
+                .role(user.getRole())
                 .build();
     }
 }
