@@ -2,6 +2,7 @@ package com.sinquinto.serviclick.Appointment.Infrastructure.Repository;
 
 import com.sinquinto.serviclick.Appointment.Domain.Appointment;
 import com.sinquinto.serviclick.Appointment.Domain.AppointmentRepository;
+import com.sinquinto.serviclick.Appointment.Domain.AppointmentStatus;
 import com.sinquinto.serviclick.Appointment.Infrastructure.Mapper.AppointmentMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -46,8 +47,24 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     }
 
     @Override
+    public List<Appointment> findByUserIdAndStatus(Long userId, AppointmentStatus status) {
+        return jpaRepository.findByUserIdAndStatus(userId, status)
+                .stream()
+                .map(mapper::appointmentEntityToAppointment)
+                .toList();
+    }
+
+    @Override
     public List<Appointment> findByServiceOfferId(Long serviceOfferId) {
         return jpaRepository.findByServiceOfferId(serviceOfferId)
+                .stream()
+                .map(mapper::appointmentEntityToAppointment)
+                .toList();
+    }
+
+    @Override
+    public List<Appointment> findByServiceOfferIdIn(List<Long> serviceOfferIds) {
+        return jpaRepository.findByServiceOfferIdIn(serviceOfferIds)
                 .stream()
                 .map(mapper::appointmentEntityToAppointment)
                 .toList();

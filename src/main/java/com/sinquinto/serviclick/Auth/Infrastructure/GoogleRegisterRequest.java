@@ -10,12 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AuthResponse {
-    Long userId;
-    String email;
+public class GoogleRegisterRequest {
+    String idToken;
+    Role role;
     String name;
     String lastName;
     String phoneNumber;
-    Role role;
-    String token;
 }

@@ -8,4 +8,5 @@ import java.util.List;
 public interface RatingJpaRepository extends JpaRepository<RatingEntity, Long> {
     List<RatingEntity> findByServiceOfferId(Long serviceOfferId);
     List<RatingEntity> findByUserId(Long userId);
+    boolean existsByAppointmentId(Long appointmentId);
 }

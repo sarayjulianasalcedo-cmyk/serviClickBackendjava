@@ -54,6 +54,11 @@ public class RatingRepositoryImpl implements RatingRepository {
     }
 
     @Override
+    public boolean existsByAppointmentId(Long appointmentId) {
+        return jpaRepository.existsByAppointmentId(appointmentId);
+    }
+
+    @Override
     public void deleteById(Long id) {
         jpaRepository.deleteById(id);
     }
