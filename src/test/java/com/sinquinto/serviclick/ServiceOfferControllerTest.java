@@ -94,9 +94,23 @@ class ServiceOfferControllerTest {
         when(service.findServiceOffersBySeller(10L)).thenReturn(List.of(serviceOffer));
 
         mockMvc.perform(get("/api/service-offers/seller/10"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].sellerId").value(10));
 
         verify(service).findServiceOffersBySeller(10L);
+    }
+
+    @Test
+    @DisplayName("GET /api/service-offers/seller/{sellerId} con vendedor sin servicios debe retornar [] 200 OK")
+    void findBySeller_whenNoServices_shouldReturnEmptyList() throws Exception {
+        when(service.findServiceOffersBySeller(99L)).thenReturn(List.of());
+
+        mockMvc.perform(get("/api/service-offers/seller/99"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$").isEmpty());
+
+        verify(service).findServiceOffersBySeller(99L);
     }
 
     @Test

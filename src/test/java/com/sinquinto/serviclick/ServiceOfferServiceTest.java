@@ -96,6 +96,36 @@ class ServiceOfferServiceTest {
     }
 
     @Test
+    @DisplayName("findServiceOffersBySeller con vendedor sin servicios debe retornar lista vacía")
+    void findServiceOffersBySeller_whenNoServices_shouldReturnEmptyList() {
+        when(repository.findBySellerId(99L)).thenReturn(List.of());
+
+        List<ServiceOffer> result = service.findServiceOffersBySeller(99L);
+
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    @DisplayName("findServiceOffersBySeller no debe retornar servicios de otros vendedores")
+    void findServiceOffersBySeller_shouldNotReturnOtherSellerServices() {
+        ServiceOffer otherSellerOffer = ServiceOffer.builder()
+                .serviceOfferId(2L).sellerId(20L)
+                .title("Servicio de otro vendedor")
+                .build();
+        when(repository.findBySellerId(10L)).thenReturn(List.of(serviceOffer));
+        when(repository.findBySellerId(20L)).thenReturn(List.of(otherSellerOffer));
+
+        List<ServiceOffer> resultSeller10 = service.findServiceOffersBySeller(10L);
+        List<ServiceOffer> resultSeller20 = service.findServiceOffersBySeller(20L);
+
+        assertEquals(1, resultSeller10.size());
+        assertEquals(10L, resultSeller10.get(0).getSellerId());
+        assertEquals(1, resultSeller20.size());
+        assertEquals(20L, resultSeller20.get(0).getSellerId());
+    }
+
+    @Test
     @DisplayName("updateServiceOffer con ID existente debe actualizar campos y retornar")
     void updateServiceOffer_whenExists_shouldUpdateAndReturn() {
         ServiceOffer updateData = ServiceOffer.builder()

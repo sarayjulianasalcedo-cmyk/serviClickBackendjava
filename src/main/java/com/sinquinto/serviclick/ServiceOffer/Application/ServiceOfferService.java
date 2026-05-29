@@ -6,12 +6,14 @@ import com.sinquinto.serviclick.ServiceOffer.Application.UseCases.ServiceOfferCr
 import com.sinquinto.serviclick.ServiceOffer.Domain.ServiceOffer;
 import com.sinquinto.serviclick.ServiceOffer.Domain.ServiceOfferRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class ServiceOfferService implements ServiceOfferCrudUseCase, ServiceOfferCountUseCase {
@@ -41,7 +43,9 @@ public class ServiceOfferService implements ServiceOfferCrudUseCase, ServiceOffe
 
     @Override
     public List<ServiceOffer> findServiceOffersBySeller(Long sellerId) {
-        return repository.findBySellerId(sellerId);
+        List<ServiceOffer> result = repository.findBySellerId(sellerId);
+        log.debug("[ServiceOffer] sellerId={} → {} servicios encontrados", sellerId, result.size());
+        return result;
     }
 
     @Override
