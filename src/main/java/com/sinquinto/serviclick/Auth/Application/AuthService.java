@@ -17,6 +17,7 @@ import com.sinquinto.serviclick.User.Domain.Role;
 import com.sinquinto.serviclick.User.Domain.User;
 import com.sinquinto.serviclick.User.Infrastructure.Mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,6 +28,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthService implements LoginUserCase {
@@ -146,8 +148,8 @@ public class AuthService implements LoginUserCase {
                 .build();
     }
 
-    private Payload verifyGoogleToken(String rawToken) {
-        System.out.println("[ServiClick] Google Client ID backend: " + googleClientId);
+    protected Payload verifyGoogleToken(String rawToken) {
+        log.debug("[Google] Verificando token contra audience configurado");
 
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
                 new NetHttpTransport(), GsonFactory.getDefaultInstance())
@@ -158,7 +160,7 @@ public class AuthService implements LoginUserCase {
         try {
             idToken = verifier.verify(rawToken);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("[Google] Error al verificar token: {}", e.getMessage(), e);
             throw new RuntimeException("Token de Google inválido o expirado: " + e.getMessage());
         }
 

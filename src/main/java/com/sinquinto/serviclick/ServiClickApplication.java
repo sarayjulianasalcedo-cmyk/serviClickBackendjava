@@ -15,11 +15,6 @@ public class ServiClickApplication {
                 System.setProperty(entry.getKey(), entry.getValue())
         );
 
-        // TRUCO DE RESPALDO: Si no hay .env, le inyectamos la clave temporal por código
-        if (System.getProperty("GEMINI_API_KEY") == null) {
-            System.setProperty("GEMINI_API_KEY", "llave_temporal_de_prueba_12345");
-        }
-
         SpringApplication.run(ServiClickApplication.class, args);
     }
 }

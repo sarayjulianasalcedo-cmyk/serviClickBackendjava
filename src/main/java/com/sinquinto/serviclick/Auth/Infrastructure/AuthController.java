@@ -3,6 +3,7 @@ package com.sinquinto.serviclick.Auth.Infrastructure;
 
 import com.sinquinto.serviclick.Auth.Application.AuthService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -29,8 +31,9 @@ public class AuthController {
 
     @PostMapping("/google-login")
     public ResponseEntity<Object> googleLogin(@RequestBody GoogleLoginRequest request) {
-        System.out.println("[ServiClick] idToken recibido null? " + (request.getIdToken() == null));
-        System.out.println("[ServiClick] idToken length = " + (request.getIdToken() != null ? request.getIdToken().length() : 0));
+        log.debug("[Google] google-login idToken null: {}, length: {}",
+                request.getIdToken() == null,
+                request.getIdToken() != null ? request.getIdToken().length() : 0);
 
         Object result = authService.googleLogin(request);
 
@@ -42,7 +45,7 @@ public class AuthController {
 
     @PostMapping("/google-register")
     public ResponseEntity<AuthResponse> googleRegister(@RequestBody GoogleRegisterRequest request) {
-        System.out.println("[ServiClick] google-register idToken null? " + (request.getIdToken() == null));
+        log.debug("[Google] google-register idToken null: {}", request.getIdToken() == null);
         return ResponseEntity.ok(authService.googleRegister(request));
     }
 }
