@@ -15,6 +15,7 @@ public class Rating {
     Long ratingId;
     Long userId;
     Long serviceOfferId;
+    Long appointmentId;
     Integer score;
     String comment;
     LocalDateTime date;

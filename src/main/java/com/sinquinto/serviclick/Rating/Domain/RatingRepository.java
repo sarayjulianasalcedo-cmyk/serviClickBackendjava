@@ -8,6 +8,7 @@ public interface RatingRepository {
     List<Rating> findAll();
     List<Rating> findByServiceOfferId(Long serviceOfferId);
     List<Rating> findByUserId(Long userId);
+    boolean existsByAppointmentId(Long appointmentId);
     void deleteById(Long id);
     Long countRatings();
 }

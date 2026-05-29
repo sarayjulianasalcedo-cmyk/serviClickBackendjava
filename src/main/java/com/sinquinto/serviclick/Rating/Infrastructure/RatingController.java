@@ -2,6 +2,7 @@ package com.sinquinto.serviclick.Rating.Infrastructure;
 
 import com.sinquinto.serviclick.Rating.Application.RatingService;
 import com.sinquinto.serviclick.Rating.Domain.Rating;
+import com.sinquinto.serviclick.Rating.Infrastructure.DTO.RatingDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +33,8 @@ public class RatingController {
     }
 
     @GetMapping("/service-offer/{serviceOfferId}")
-    public ResponseEntity<List<Rating>> findByServiceOffer(@PathVariable Long serviceOfferId) {
-        return new ResponseEntity<>(service.findRatingsByServiceOffer(serviceOfferId), HttpStatus.OK);
+    public ResponseEntity<List<RatingDTO>> findByServiceOffer(@PathVariable Long serviceOfferId) {
+        return ResponseEntity.ok(service.findRatingsDTOByServiceOffer(serviceOfferId));
     }
 
     @GetMapping("/user/{userId}")

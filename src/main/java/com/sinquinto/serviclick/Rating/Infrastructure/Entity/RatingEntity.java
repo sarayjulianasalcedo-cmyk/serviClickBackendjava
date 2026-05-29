@@ -22,6 +22,7 @@ public class RatingEntity {
 
     Long userId;
     Long serviceOfferId;
+    Long appointmentId;
     Integer score;
     String comment;
     LocalDateTime date;

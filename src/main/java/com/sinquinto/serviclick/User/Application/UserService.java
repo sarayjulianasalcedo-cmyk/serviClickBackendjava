@@ -43,6 +43,10 @@ public class UserService implements UserCountUseCase, UserCrudUseCase {
         return user;
     }
 
+    public UserDTO findUserDTOById(Long id) {
+        return mapper.userToUserDTO(findUserById(id));
+    }
+
     @Override
     public User findUserByEmail(String email) {
         User userDB = repository.findByEmail(email);
